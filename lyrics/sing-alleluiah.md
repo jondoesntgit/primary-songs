@@ -1,0 +1,9 @@
+title:￼Sing Allelujah to the Lord
+Sing alleluia to the Lord
+Sing alleluia to the Lord 
+Sing alleluia, sing alleluia 
+Sing alleluia to the Lord.
+
+1. Jesus is King of Heaven an Earth... 
+2. Praise Father, Son and Holy Ghost... 
+3. He's coming back to take us home...
