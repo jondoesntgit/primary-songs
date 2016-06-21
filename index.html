@@ -9,16 +9,23 @@
 		<script type="text/javascript" src="js/lunr.js"></script>	
 		<style>
 			.hidden { display: none; }
-			.inputfile {
-			  position: relative;
-			  top: 0;
-			  right: 0;
-			  margin: 0;
-			  padding: 0;
-			  font-size: 20px;
-			  cursor: pointer;
-			  opacity: .2;
-			  filter: alpha(opacity=0); }
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
 }
 
 label {
@@ -28,11 +35,11 @@ label {
 
 h1 {
 	text-align: center;
-	font-size: 36;
+	font-size: 36px;
 }
 
-#song-viewer {
-	font-size: 18;
+#song-viewer p {
+	font-size: 24px;
 
 }
 
@@ -48,13 +55,17 @@ h1 {
 	    </div>
 
 
-  	    <button type="button" class="btn btn-default navbar-btn">
 
-	    <input class="inputfile" name="file" type="file" id="file" webkitdirectory="" directory="" />
-	    	
-	    	Load Songs <span class="glyphicon glyphicon-open-file"></span>
 
-	    </button>
+
+
+
+		<div class="fileUpload btn btn-primary">
+		    <span>Upload</span>
+		    <input type="file" class="upload"  id="file" webkitdirectory="" directory=""/>
+		</div>
+
+
 
 
 		<form class="navbar-form navbar-right" role="search">
@@ -62,6 +73,8 @@ h1 {
 		    <input id="search-bar" type="text" class="form-control" placeholder="Search">
 		  </div>
 		</form>
+
+
 
 		<button type="button" id="list-all-button" class="btn btn-default  navbar-btn navbar-right">
     	List All <span class="glyphicon glyphicon-th-list"></span>
@@ -76,6 +89,10 @@ h1 {
 	    	<span class="glyphicon glyphicon-zoom-out"></span>
 	    </button>
 
+				<div class="nav navbar-nav navbar-right">
+	    <ul class="nav navbar-nav" id="toc">
+		  </ul>
+		</div>
 	    	  </div>
 
 
@@ -87,7 +104,7 @@ h1 {
 
 <div class="row search-row hidden" >
 	<div class="col-sm-6">
-		<ul id="search-results"></ul>
+		<ul id="search-results" class="list-group"></ul>
 	</div>
 	<div class="col-sm-6">
 		<div id="song-previews"></div>
@@ -98,7 +115,9 @@ h1 {
 	<div >
 		<div></div>
 	</div>
+	
 </div>
+<div id="slideViewer"></div>
 
 </html>
 
@@ -132,12 +151,13 @@ function showAllSongs() {
 	$('#search-row').show();
 	$('#search-results').show();
 	$('#song-viewer').hide()
+	$('#toc').empty()
 	$('#song-previews').empty();
 	var resultdiv = $('ul#search-results');
 	resultdiv.empty();
     for (var item in store) {
         var ref = store[item].id;
-        var searchitem = '<li class="resultli" id="' + ref + '">' + store[ref].title + '</a></li>';
+        var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a></li>';
         resultdiv.append(searchitem);
     }
     resultdiv.show();	
@@ -145,6 +165,7 @@ function showAllSongs() {
     $('.resultli').bind({
     	click: function() {
     		$('#song-viewer').html(loadASong(this.id))
+    		slideShow();
     			
     		$('#search-row').hide();
     		$('#search-results').hide();
@@ -170,18 +191,67 @@ $(document).ready(function(){
 			var size = parseInt($('#song-viewer p').css('font-size'));
 			size = size * 1.2;
 			$('#song-viewer p').css('font-size', size + 'px')
-			$('#song-viewer h1').css('font-size', size*2+'px')
+			$('#song-viewer h1').css('font-size', size*1.5+'px')
 		}
 	})
 
 	$('#zoom-out').bind({
 		click: function() {
 			size = parseInt($('#song-viewer p').css('font-size'));
-			size = size * 0.8;
+			size = size / 1.2;
 			$('#song-viewer p').css('font-size', size + 'px')
-			$('#song-viewer h1').css('font-size', size*2+'px')
+			$('#song-viewer h1').css('font-size', size*1.5+'px')
 		}
 	})
+
+	$('#search-bar').on
+
+	$('#search-bar').on('keyup', function() {
+		$('#search-row').show()
+		$('#song-viewer').hide()
+	    // Get query
+	    var query = $(this).val();
+	    // Search for it
+	    var result = index.search(query);
+	    // Output it
+	    var resultdiv = $('ul#search-results');
+	    if (result.length === 0) {
+	        // Hide results
+	        resultdiv.hide();
+	    } else {
+	        // Show results
+	        resultdiv.empty();
+	        for (var item in result) {
+	            var ref = result[item].ref;
+	            var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a></li>';
+	            resultdiv.append(searchitem);
+	        }
+	        resultdiv.show();	
+
+	        $('.resultli').bind({
+	        	click: function() {
+	        		$('#song-viewer').html(loadASong(this.id))
+	        		slideShow();
+	        			
+	        		$('#search-row').hide();
+	        		$('#search-results').hide();
+	        		$('#song-viewer').show()
+	        		$('#song-previews').empty();
+	        	},
+	        	mouseenter: function() {
+	        		$('#song-previews').html(markdown.toHTML(store[this.id].body))
+	        	},
+	        	mouseleave: function() {
+	        		$('#song-previews').empty();
+	        	}
+
+
+	        })
+
+
+	    }
+	})
+
 });
 
 
@@ -232,6 +302,7 @@ $('#file').change(function(event) {
 </script>
 
 <script>
+	var chorusPosition;
 
 function loadASong (id) {
 	var html = ""
@@ -244,52 +315,37 @@ function loadASong (id) {
 	return html;
 }
 
+function slideShow() {
+	$('#toc').empty()
+	i = 0;
+	$('#song-viewer > p, #song-viewer > blockquote').each(function(pIndex, element) {
+		if ($(this).is('p')) {
+			pIndex++;
+			i++;
+			$(this).attr("id","v" + i);
+			$('#toc').append('<li role="presentation"><a href="#v'+ i + '">' + i  + '</a></li>')
+		} else {
+			chorusPosition = i + .5
+			$('#song-viewer > blockquote').attr('id','chorus')
+			$('#toc').append('<li role="presentation"><a href="#chorus">C</a></li>')
+		}
+	})
+
+
+	$('#toc > li > a').bind({
+		click: function() {
+			id = ($(this).attr('href'))
+			$(id).siblings().hide()
+			//$(this).parents().class('active')
+			$('#song-viewer h1').show()
+			$(id).show()
+		}
+	})
+}
+
 
 // Set up search
 
-	$('#search-bar').on('keyup', function() {
-		$('#search-row').show()
-		$('#song-viewer').hide()
-	    // Get query
-	    var query = $(this).val();
-	    // Search for it
-	    var result = index.search(query);
-	    // Output it
-	    var resultdiv = $('ul#search-results');
-	    if (result.length === 0) {
-	        // Hide results
-	        resultdiv.hide();
-	    } else {
-	        // Show results
-	        resultdiv.empty();
-	        for (var item in result) {
-	            var ref = result[item].ref;
-	            var searchitem = '<li class="resultli" id="' + ref + '">' + store[ref].title + '</a></li>';
-	            resultdiv.append(searchitem);
-	        }
-	        resultdiv.show();	
 
-	        $('.resultli').bind({
-	        	click: function() {
-	        		$('#song-viewer').html(loadASong(this.id))
-	        			
-	        		$('#search-row').hide();
-	        		$('#search-results').hide();
-	        		$('#song-viewer').show()
-	        		$('#song-previews').empty();
-	        	},
-	        	mouseenter: function() {
-	        		$('#song-previews').html(markdown.toHTML(store[this.id].body))
-	        	},
-	        	mouseleave: function() {
-	        		$('#song-previews').empty();
-	        	}
-
-
-	        })
-
-
-	    }
-	})
 
 </script>

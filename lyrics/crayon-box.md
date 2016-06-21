@@ -1,7 +1,6 @@
 title: Crayon Box
 key: E
 
-
 When I was just a little child  
 No higher than your knee,  
 My mother bought a box of crayons,  
