@@ -56,11 +56,13 @@ h1 {
 
 
 
+		<button type="button" id="key-view" class="btn btn-primary navbar-btn hidden"><strong>
+    	<span id="key">E</span></strong>
+	    </button>
 
 
 
-
-		<div class="fileUpload btn btn-primary">
+		<div class="fileUpload btn btn-default">
 		    <span>Upload</span>
 		    <input type="file" class="upload"  id="file" webkitdirectory="" directory=""/>
 		</div>
@@ -152,6 +154,7 @@ function showAllSongs() {
 	$('#search-results').show();
 	$('#song-viewer').hide()
 	$('#toc').empty()
+	$('#key-view').hide()
 	$('#song-previews').empty();
 	var resultdiv = $('ul#search-results');
 	resultdiv.empty();
@@ -209,6 +212,7 @@ $(document).ready(function(){
 	$('#search-bar').on('keyup', function() {
 		$('#search-row').show()
 		$('#song-viewer').hide()
+		$('#key-view').hide()
 	    // Get query
 	    var query = $(this).val();
 	    // Search for it
@@ -295,6 +299,7 @@ $('#file').change(function(event) {
      reader.readAsText(listOfFiles[i]);
   }
   alert('Loaded ' + i + ' songs!');
+  $('key-view').hide()
 });
 
 
@@ -311,6 +316,35 @@ function loadASong (id) {
 	} else {
 		html = html + '<h1>' + store[id].title + '</h1>';
 	}
+
+	if (store[id].key) {
+		$('#key').text(store[id].key)
+		var color = '#33a6cc'
+		switch(store[id].key.trim().substring(0,1)){
+			case 'A':
+				color = '#ff00ff' // fuschia
+				break;
+			case 'C':
+				color = '#33a6cc' // blue
+				break;
+			case 'D':
+				color = '#33cc33' // green
+				break;
+			case 'E':
+				color = '#ff3300' // red
+				break;
+			case 'G':
+				 olor = '#0033cc' // red
+				break;
+			default:
+				color = '#33a6cc' // blue
+		}
+		$('#key-view').closest('button').css('background',color);
+		$('#key-view').show()
+	} else {
+		$('#key-view').hide()
+	}
+
 	html = html + markdown.toHTML(store[id].body)
 	return html;
 }

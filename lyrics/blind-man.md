@@ -1,4 +1,5 @@
 title:￼Blind Man
+key: Am
 
 The blind man stood by the road and he cried (3x) 
 He cried whoa!
