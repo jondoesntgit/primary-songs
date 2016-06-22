@@ -57,7 +57,7 @@ h1 {
 
 
 		<button type="button" id="key-view" class="btn btn-primary navbar-btn hidden"><strong>
-    	<span id="key">E</span></strong>
+    	<span id="key"></span></strong>
 	    </button>
 
 
@@ -147,6 +147,9 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
   alert('The File APIs are not fully supported in this browser.');
 }
 
+var slideShowPosition = 0;
+var chorusPosition = 0;
+var maxVerse;
 
 function showAllSongs() {
 
@@ -184,6 +187,57 @@ function showAllSongs() {
 	})
 }
 
+function incrementSlideShow() {
+	if (!$('#song-viewer').is(':visible') ) {
+		return;
+	}
+	if (chorusPosition && slideShowPosition + 1 > chorusPosition && slideShowPosition < maxVerse + .5) {
+		slideShowPosition += .5;
+
+	} else {
+		if (slideShowPosition < maxVerse) {
+			slideShowPosition++;	
+		}
+
+	}
+	if (Number.isInteger(slideShowPosition)) {
+		id = '#v' + slideShowPosition
+	} else {
+		id = '#chorus'
+	}
+	console.log(id)
+		$(id).siblings().hide()
+		//$(this).parents().class('active')
+		$('#song-viewer h1').show()
+		$(id).show()
+	if (slideShowPosition >= maxVerse + 1)
+		$('#song-viewer p, #song-viewer h1').hide()
+}
+
+function decrementSlideShow() {
+	if (!$('#song-viewer').is(':visible') ) {
+		return;
+	}
+	console.log(slideShowPosition)
+	if (chorusPosition && slideShowPosition >= chorusPosition) {
+		slideShowPosition -= .5;
+
+	} else {
+		if (slideShowPosition > 0)
+		slideShowPosition--;
+	}
+	if (Number.isInteger(slideShowPosition)) {
+		id = '#v' + slideShowPosition
+	} else {
+		id = '#chorus'
+	}
+		$(id).siblings().hide()
+		//$(this).parents().class('active')
+		$('#song-viewer h1').show()
+		$(id).show()
+
+}
+
 $(document).ready(function(){	
 	$('#list-all-button').bind({
 		click: showAllSongs
@@ -207,7 +261,25 @@ $(document).ready(function(){
 		}
 	})
 
-	$('#search-bar').on
+	$(document).on('keydown', function(event) {
+		if ($('#search-bar').is(':focus')){
+			// They're typing in search bar
+			return;
+		} else {
+			switch(event.which) {
+				case 39: // right arrow
+
+				case 32: // space
+					incrementSlideShow()
+					break;
+				case 37: // left arrow
+					decrementSlideShow()
+					break;
+				default:
+					// do nothing
+			}
+		}
+	})
 
 	$('#search-bar').on('keyup', function() {
 		$('#search-row').show()
@@ -307,9 +379,10 @@ $('#file').change(function(event) {
 </script>
 
 <script>
-	var chorusPosition;
+
 
 function loadASong (id) {
+	slideShowPosition = 0
 	var html = ""
 	if (store[id].title.indexOf('.md') > -1) {
 		;
@@ -364,7 +437,7 @@ function slideShow() {
 			$('#toc').append('<li role="presentation"><a href="#chorus">C</a></li>')
 		}
 	})
-
+	maxVerse = i;
 
 	$('#toc > li > a').bind({
 		click: function() {
@@ -373,6 +446,8 @@ function slideShow() {
 			//$(this).parents().class('active')
 			$('#song-viewer h1').show()
 			$(id).show()
+
+			//TODO sync with slideshow position
 		}
 	})
 }
