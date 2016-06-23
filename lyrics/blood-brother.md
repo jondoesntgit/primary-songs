@@ -1,4 +1,5 @@
 title:Blood Brother
+key:Em
 
 Tell me who is your blood brother 
 Jesus shed his blood for you 

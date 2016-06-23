@@ -70,7 +70,7 @@ h1 {
 
 
 
-		<form class="navbar-form navbar-right" role="search">
+		<form id="search-form" class="navbar-form navbar-right" role="search">
 		  <div class="form-group">
 		    <input id="search-bar" type="text" class="form-control" placeholder="Search">
 		  </div>
@@ -151,6 +151,16 @@ var slideShowPosition = 0;
 var chorusPosition = 0;
 var maxVerse;
 
+function selectSong(songDiv) {
+	$('#song-viewer').html(loadASong(songDiv.id))
+	slideShow();
+		
+	$('#search-row').hide();
+	$('#search-results').hide();
+	$('#song-viewer').show()
+	$('#song-previews').empty();
+}
+
 function showAllSongs() {
 
 	$('#search-row').show();
@@ -170,13 +180,7 @@ function showAllSongs() {
 
     $('.resultli').bind({
     	click: function() {
-    		$('#song-viewer').html(loadASong(this.id))
-    		slideShow();
-    			
-    		$('#search-row').hide();
-    		$('#search-results').hide();
-    		$('#song-viewer').show()
-    		$('#song-previews').empty();
+    		selectSong(this)
     	},
     	mouseenter: function() {
     		$('#song-previews').html(markdown.toHTML(store[this.id].body))
@@ -205,7 +209,6 @@ function incrementSlideShow() {
 	} else {
 		id = '#chorus'
 	}
-	console.log(id)
 		$(id).siblings().hide()
 		//$(this).parents().class('active')
 		$('#song-viewer h1').show()
@@ -218,7 +221,6 @@ function decrementSlideShow() {
 	if (!$('#song-viewer').is(':visible') ) {
 		return;
 	}
-	console.log(slideShowPosition)
 	if (chorusPosition && slideShowPosition >= chorusPosition) {
 		slideShowPosition -= .5;
 
@@ -261,22 +263,44 @@ $(document).ready(function(){
 		}
 	})
 
+	$('#search-bar').focusout(function(){
+		$('#search-bar').val('')
+	})
+
+	$('#search-form').submit(function(){
+		liElements = $('.resultli')
+		if (liElements.length){
+			selectSong(liElements.get(0));
+		}
+		$('#search-form').blur()
+		$('#search-bar').blur()
+		$(window).scrollTop(0)
+		return false; // needed to prevent page from reloading
+	})
+
 	$(document).on('keydown', function(event) {
 		if ($('#search-bar').is(':focus')){
 			// They're typing in search bar
 			return;
 		} else {
 			switch(event.which) {
+				case 13: // enter
+					liElements = $('.resultli')
+					if (liElements.length){
+						selectSong(liElements.get(0));
+					}
+					break;
 				case 39: // right arrow
-
 				case 32: // space
 					incrementSlideShow()
 					break;
+				case 8: // backspace
 				case 37: // left arrow
 					decrementSlideShow()
 					break;
 				default:
-					// do nothing
+					$('#search-bar').focus()
+
 			}
 		}
 	})
@@ -306,13 +330,7 @@ $(document).ready(function(){
 
 	        $('.resultli').bind({
 	        	click: function() {
-	        		$('#song-viewer').html(loadASong(this.id))
-	        		slideShow();
-	        			
-	        		$('#search-row').hide();
-	        		$('#search-results').hide();
-	        		$('#song-viewer').show()
-	        		$('#song-previews').empty();
+	        		selectSong(this)
 	        	},
 	        	mouseenter: function() {
 	        		$('#song-previews').html(markdown.toHTML(store[this.id].body))
@@ -383,6 +401,7 @@ $('#file').change(function(event) {
 
 function loadASong (id) {
 	slideShowPosition = 0
+	chorusPosition = 0
 	var html = ""
 	if (store[id].title.indexOf('.md') > -1) {
 		;

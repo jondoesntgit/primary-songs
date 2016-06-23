@@ -1,4 +1,6 @@
 title:Mr. Darwin
+key:Em
+
 Mr. Darwin, I address to you the subject of this song
 I hope you’re not offended when I tell you that you’re wrong
 But when you tell me that my ancestor’s a flower or a tree
