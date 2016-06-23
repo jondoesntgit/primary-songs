@@ -322,6 +322,9 @@ $(document).ready(function(){
 					incrementSlideShow()
 					break;
 				case 8: // backspace
+					if (event.which === 8 && !$(event.target).is("input, textarea")) {
+				        event.preventDefault();
+				    }
 				case 37: // left arrow
 					decrementSlideShow()
 					break;
