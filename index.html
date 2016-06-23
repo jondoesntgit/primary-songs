@@ -173,9 +173,36 @@ function showAllSongs() {
 	resultdiv.empty();
     for (var item in store) {
         var ref = store[item].id;
-        var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a></li>';
+        var keyString = ""
+        if (store[item].key) {
+        	keyString = '<span class="badge">' + store[item].key + '</span>'
+        }
+        var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a>' + keyString + '</li>';
         resultdiv.append(searchitem);
     }
+	    $('span.badge').each(function(index){
+		var color = '#33a6cc'
+		switch($(this).text().trim().substring(0,1)){
+			case 'A':
+				color = '#ff00ff' // fuschia
+				break;
+			case 'C':
+				color = '#33a6cc' // blue
+				break;
+			case 'D':
+				color = '#33cc33' // green
+				break;
+			case 'E':
+				color = '#ff3300' // red
+				break;
+			case 'G':
+				 olor = '#0033cc' // red
+				break;
+			default:
+				color = '#33a6cc' // blue
+		}
+		$(this).css('background-color',color);	        	
+	})
     resultdiv.show();	
 
     $('.resultli').bind({
@@ -323,9 +350,40 @@ $(document).ready(function(){
 	        resultdiv.empty();
 	        for (var item in result) {
 	            var ref = result[item].ref;
-	            var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a></li>';
+                var keyString = ""
+		        if (store[ref].key) {
+		        	keyString = '<span class="badge">' + store[ref].key + '</span>'
+		        }
+		        var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a>' + keyString + '</li>';
 	            resultdiv.append(searchitem);
+
+
+
+
 	        }
+	        $('span.badge').each(function(index){
+				var color = '#33a6cc'
+				switch($(this).text().trim().substring(0,1)){
+					case 'A':
+						color = '#ff00ff' // fuschia
+						break;
+					case 'C':
+						color = '#33a6cc' // blue
+						break;
+					case 'D':
+						color = '#33cc33' // green
+						break;
+					case 'E':
+						color = '#ff3300' // red
+						break;
+					case 'G':
+						 olor = '#0033cc' // red
+						break;
+					default:
+						color = '#33a6cc' // blue
+				}
+				$(this).css('background-color',color);	        	
+	        })
 	        resultdiv.show();	
 
 	        $('.resultli').bind({
