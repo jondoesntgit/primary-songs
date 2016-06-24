@@ -6,7 +6,8 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/markdown.js"></script>
 		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<script type="text/javascript" src="js/lunr.js"></script>	
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<script type="text/javascript" src="js/lunr.js"></script>
 		<style>
 			.hidden { display: none; }
 
@@ -56,7 +57,7 @@ h1 {
 
 
 
-		<button type="button" id="key-view" class="btn btn-primary navbar-btn hidden"><strong>
+		<button type="button" id="key-view" class="btn btn-primary navbar-btn hidden"><i class="fa fa-key"></i><strong>
     	<span id="key"></span></strong>
 	    </button>
 
@@ -102,7 +103,47 @@ h1 {
 	</nav>
 
 
+<div class="row" id="overview">
+	<div class="col-sm-8 col-sm-offset-2">
 
+		<h2>How to Use</h2>
+		<p>
+			This is a web app that allows for rapid searching and displaying of songs.
+			It's also capable of displaying keys so musicians know how to pitch the songs.
+		</p>
+		<p>
+			By default, the webapp loads about 120 songs used at the Primary Tent at Wisconsin
+			Camp Meeting. To search through these songs, start typing lyrics or the title of the song.
+			The web app will show songs that match your search query in a results column on the left.
+			By hovering your mouse over one of the results, you can preview the song on the column on the right. Click to select a result.
+		</p>
+
+		<h2>Shortcuts</h2>
+		<table class="table">
+			<thead>
+				<tr><th>Key</th><th>Shortcut</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>Space, Right Arrow</td><td>Advance slide</td></tr>
+				<tr><td>Backspace, Left Arrow</td><td>Go back a slide</td></tr>
+				<tr><td>Enter</td><td>Select top song on results list</td></tr>
+				<tr><td>Any other key</td><td>Focus on search bar and search for song</td>
+			</tbody>
+		</table>
+
+		<h2>Extended Features</h2>
+		<p>
+			Click on <button class = "btn btn-default">Upload</button> to upload a directory of lyrics in <a href="http://fletcherpenney.net/multimarkdown/">MultiMarkdown</a> format. 
+		</p>
+		<p>
+			For more information on how to make your own lyrics, consult example lyrics in the   <a href="https://github.com/wheelerj/primary-songs">
+    <span class="fa fa-github"></span> GitHub
+  </a> repository, or contact me at <a href="mailto:jonathan.m.wheeler@gmail.com"><i class="fa fa-envelope-o" aria-hidden="true"></i> jonathan.m.wheeler@gmail.com</a>.
+		</p>
+
+		<h3>
+	</div>
+</div>
 
 <div class="row search-row hidden" >
 	<div class="col-sm-6">
@@ -154,7 +195,6 @@ $.each(store, function(i) {
 	this.body = this.body.split("\n").join("  \n")
 	this.id = i;
 	index.add(this)
-	console.log(this.title)
 })
 
   $('.hidden').show().removeClass('hidden')
@@ -362,6 +402,7 @@ $(document).ready(function(){
 	})
 
 	$('#search-bar').on('keyup', function() {
+		$('#overview').hide()
 		$('#search-row').show()
 		$('#song-viewer').hide()
 		$('#key-view').hide()
