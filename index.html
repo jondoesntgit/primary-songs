@@ -152,6 +152,7 @@ store.sort(function(a,b){
 
 $.each(store, function(i) {
 	this.body = this.body.split("\n").join("  \n")
+	this.id = i;
 	index.add(this)
 	console.log(this.title)
 })
@@ -201,8 +202,8 @@ function showAllSongs() {
         var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a>' + keyString + '</li>\n';
         addString += searchitem
         console.log(searchitem)
-
     }
+
     resultdiv.append(addString);
 	    $('span.badge').each(function(index){
 		var color = '#33a6cc'
