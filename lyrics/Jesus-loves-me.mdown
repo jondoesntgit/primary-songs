@@ -1,4 +1,6 @@
-title:￼Jesus Loves Me
+title:Jesus Loves Me
+key:C
+
 Jesus Loves me this I know 
 For the Bible tells me so
 Little ones to Him belong 

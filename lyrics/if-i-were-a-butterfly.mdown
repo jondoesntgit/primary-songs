@@ -1,4 +1,6 @@
-title:￼If I Were a Butterfly
+title:If I Were a Butterfly
+key:D
+
 If I were a butterfly
 I’d thank you Lord for giving me wings 
 If I were a robin in a tree

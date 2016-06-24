@@ -1,4 +1,5 @@
 title: Who's the King of the Jungle
+key:E
 
 Who's the king of the jungle?  
 Who's the king of the sea?  

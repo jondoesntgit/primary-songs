@@ -1,4 +1,6 @@
 title:Salad Song
+key:D
+
 When the roll is called up yonder
 I'll be walkin' down the King's highway
 Tell me the old, old story; I love it better every day

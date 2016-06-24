@@ -1,4 +1,6 @@
-title:￼Wide as the Ocean
+title:Wide as the Ocean
+key:G
+
 Wide, wide as the ocean,
 High as the heavens above,
 Deep, deep as the deepest sea

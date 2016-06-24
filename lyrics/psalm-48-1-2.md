@@ -1,4 +1,5 @@
 title:Psalm 48:1,2
+key:D
 
 Great is the LORD
 and greatly to be praised 

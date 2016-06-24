@@ -1,4 +1,5 @@
 title:Teach us to Love
+key:D
 >Teach us to love, Lord,
 Better each day,
 Our fellow man, Lord, because

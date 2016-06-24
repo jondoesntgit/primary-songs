@@ -1,4 +1,5 @@
 title: I'm in the Lord's Army
+key:D
 
 I may never march in the infantry
 Ride in the cavalry

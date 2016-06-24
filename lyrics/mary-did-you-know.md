@@ -1,4 +1,6 @@
 title:Mary Did You Know?
+key:Am
+
 Mary did you know that your baby boy
 Will one day walk on water?
 Mary did you know that your baby boy

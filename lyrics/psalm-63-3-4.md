@@ -1,4 +1,5 @@
 title:Psalm 63:3,4 
+key:D
 
 Thy lovingkindness 
 is better than life,

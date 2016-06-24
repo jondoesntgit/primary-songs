@@ -1,4 +1,5 @@
-￼Jesus Lifted Me
+title:Jesus Lifted Me
+
 I'm so glad Jesus lifted me, 
 I'm so glad Jesus lifted me. 
 I'm so glad Jesus lifted me, 
@@ -8,6 +9,7 @@ singing glory hallelujah,
 Jesus lifted me.
 
 ---
+
 One, two, three, Satan's after me;
 Four, five, six, he's chasing me with sticks;
 Seven, eight, nine, he misses every time...

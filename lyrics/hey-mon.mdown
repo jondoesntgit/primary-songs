@@ -1,4 +1,5 @@
-title:￼Hey Mon
+title:Hey Mon
+key:D
 >Hey, hey, Mon, do you know my Lord? 
 Hey, hey, Mon, do you know my Lord? 
 Tell de people from door to door 

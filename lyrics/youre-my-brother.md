@@ -1,4 +1,6 @@
 title:Your my Brother
+key:G
+
 You’re my brother, You’re my friend
 You’re my Beginning and my End
 You’re all around me when the world 

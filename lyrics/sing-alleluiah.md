@@ -1,9 +1,16 @@
-title:￼Sing Allelujah to the Lord
+title:Sing Allelujah to the Lord
+key:A capo 2
 Sing alleluia to the Lord
 Sing alleluia to the Lord 
 Sing alleluia, sing alleluia 
 Sing alleluia to the Lord.
 
-1. Jesus is King of Heaven an Earth... 
-2. Praise Father, Son and Holy Ghost... 
-3. He's coming back to take us home...
+Jesus is Lord of Heaven an Earth
+Jesus is Lord of Heaven an Earth
+Jesus is Lord, Jesus is Lord
+Jesus is Lord of Heaven an Earth
+
+He's coming back to take us home
+He's coming back to take us home
+He's coming back, He's coming back
+He's coming back to take us home

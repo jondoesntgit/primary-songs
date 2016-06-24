@@ -1,4 +1,6 @@
 title:Wonderful, Wonderful
+key:G
+
 Wonderful, wonderful
 Yes my Lord is wonderful
 Isn’t Jesus my Lord wonderful 

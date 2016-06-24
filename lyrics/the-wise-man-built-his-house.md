@@ -1,4 +1,5 @@
-title:￼The Wise Man Built his House
+title:The Wise Man Built his House
+key:D
 The wise man built his house upon the rock, (3x) 
 And the rains came tumbling down!
 The rains came down and the floods came up, (3x)

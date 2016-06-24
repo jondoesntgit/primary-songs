@@ -1,4 +1,5 @@
-title:￼All we like sheep
+title:All we like sheep
+key:G
 All we like sheep
 Have gone astray
 And the Lord has laid
@@ -6,7 +7,23 @@ My sins on him
 And the Lord has laid on him
 the iniquities of us all
 
----
-1. He was despised and rejected of men
-2. A man of sorrows, and acquainted with grief
-3. We have turned every one to his own ways
+He was despised and rejected of men
+He was despised and rejected of men
+And the Lord has laid
+My sins on him
+And the Lord has laid on him
+the iniquities of us all
+
+A man of sorrows, and acquainted with grief
+A man of sorrows, and acquainted with grief
+And the Lord has laid
+My sins on him
+And the Lord has laid on him
+the iniquities of us all
+
+We have turned every one to his own ways
+We have turned every one to his own ways
+And the Lord has laid
+My sins on him
+And the Lord has laid on him
+the iniquities of us all

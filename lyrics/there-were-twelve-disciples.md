@@ -1,4 +1,6 @@
-title:￼There Were Twelve Disciples
+title:There Were Twelve Disciples
+key:A
+
 There were twelve disciples
 Jesus called to help him:
 Simon Peter, Andrew,

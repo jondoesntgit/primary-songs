@@ -1,4 +1,4 @@
-title:￼Coloring Song
+title:Coloring Song
 key: C
 
 Red is the color of the blood that flowed

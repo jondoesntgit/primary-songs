@@ -57,7 +57,7 @@ h1 {
 
 
 		<button type="button" id="key-view" class="btn btn-primary navbar-btn hidden"><strong>
-    	<span id="key">E</span></strong>
+    	<span id="key"></span></strong>
 	    </button>
 
 
@@ -70,7 +70,7 @@ h1 {
 
 
 
-		<form class="navbar-form navbar-right" role="search">
+		<form id="search-form" class="navbar-form navbar-right" role="search">
 		  <div class="form-group">
 		    <input id="search-bar" type="text" class="form-control" placeholder="Search">
 		  </div>
@@ -138,8 +138,28 @@ var store = [];
 
 </script>
 
+<!-- Load cached songs -->
+<script src="store.json"></script>
 
 <script>
+
+store.sort(function(a,b){
+	a = a.title.trim()
+	b = b.title.trim()
+	val = a<b?-1:(a>b?1:0)
+	return val
+})
+
+$.each(store, function(i) {
+	this.body = this.body.split("\n").join("  \n")
+	index.add(this)
+	console.log(this.title)
+})
+
+  $('.hidden').show().removeClass('hidden')
+  $('#key-view').hide();
+  $('#file-selector-div').hide()
+
 var content
 if (window.File && window.FileReader && window.FileList && window.Blob) {
 // Great success! All the File APIs are supported.
@@ -147,6 +167,19 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
   alert('The File APIs are not fully supported in this browser.');
 }
 
+var slideShowPosition = 0;
+var chorusPosition = 0;
+var maxVerse;
+
+function selectSong(songDiv) {
+	$('#song-viewer').html(loadASong(songDiv.id))
+	slideShow();
+		
+	$('#search-row').hide();
+	$('#search-results').hide();
+	$('#song-viewer').show()
+	$('#song-previews').empty();
+}
 
 function showAllSongs() {
 
@@ -158,22 +191,47 @@ function showAllSongs() {
 	$('#song-previews').empty();
 	var resultdiv = $('ul#search-results');
 	resultdiv.empty();
-    for (var item in store) {
+	addString = ''
+    for (item in store) {
         var ref = store[item].id;
-        var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a></li>';
-        resultdiv.append(searchitem);
+        var keyString = ""
+        if (store[item].key) {
+        	keyString = '<span class="badge">' + store[item].key + '</span>'
+        }
+        var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a>' + keyString + '</li>\n';
+        addString += searchitem
+        console.log(searchitem)
+
     }
+    resultdiv.append(addString);
+	    $('span.badge').each(function(index){
+		var color = '#33a6cc'
+		switch($(this).text().trim().substring(0,1)){
+			case 'A':
+				color = '#ff00ff' // fuschia
+				break;
+			case 'C':
+				color = '#33a6cc' // blue
+				break;
+			case 'D':
+				color = '#33cc33' // green
+				break;
+			case 'E':
+				color = '#ff3300' // red
+				break;
+			case 'G':
+				 color = '#0000ff' // red
+				break;
+			default:
+				color = '#33a6cc' // blue
+		}
+		$(this).css('background-color',color);
+	})
     resultdiv.show();	
 
     $('.resultli').bind({
     	click: function() {
-    		$('#song-viewer').html(loadASong(this.id))
-    		slideShow();
-    			
-    		$('#search-row').hide();
-    		$('#search-results').hide();
-    		$('#song-viewer').show()
-    		$('#song-previews').empty();
+    		selectSong(this)
     	},
     	mouseenter: function() {
     		$('#song-previews').html(markdown.toHTML(store[this.id].body))
@@ -182,6 +240,55 @@ function showAllSongs() {
     		$('#song-previews').empty();
     	}
 	})
+}
+
+function incrementSlideShow() {
+	if (!$('#song-viewer').is(':visible') ) {
+		return;
+	}
+	if (chorusPosition && slideShowPosition + 1 > chorusPosition && slideShowPosition < maxVerse + .5) {
+		slideShowPosition += .5;
+
+	} else {
+		if (slideShowPosition < maxVerse) {
+			slideShowPosition++;	
+		}
+
+	}
+	if (Number.isInteger(slideShowPosition)) {
+		id = '#v' + slideShowPosition
+	} else {
+		id = '#chorus'
+	}
+		$(id).siblings().hide()
+		//$(this).parents().class('active')
+		$('#song-viewer h1').show()
+		$(id).show()
+	if (slideShowPosition >= maxVerse + 1)
+		$('#song-viewer p, #song-viewer h1').hide()
+}
+
+function decrementSlideShow() {
+	if (!$('#song-viewer').is(':visible') ) {
+		return;
+	}
+	if (chorusPosition && slideShowPosition >= chorusPosition) {
+		slideShowPosition -= .5;
+
+	} else {
+		if (slideShowPosition > 0)
+		slideShowPosition--;
+	}
+	if (Number.isInteger(slideShowPosition)) {
+		id = '#v' + slideShowPosition
+	} else {
+		id = '#chorus'
+	}
+		$(id).siblings().hide()
+		//$(this).parents().class('active')
+		$('#song-viewer h1').show()
+		$(id).show()
+
 }
 
 $(document).ready(function(){	
@@ -207,7 +314,50 @@ $(document).ready(function(){
 		}
 	})
 
-	$('#search-bar').on
+	$('#search-bar').focusout(function(){
+		$('#search-bar').val('')
+	})
+
+	$('#search-form').submit(function(){
+		liElements = $('.resultli')
+		if (liElements.length){
+			selectSong(liElements.get(0));
+		}
+		$('#search-form').blur()
+		$('#search-bar').blur()
+		$(window).scrollTop(0)
+		return false; // needed to prevent page from reloading
+	})
+
+	$(document).on('keydown', function(event) {
+		if ($('#search-bar').is(':focus')){
+			// They're typing in search bar
+			return;
+		} else {
+			switch(event.which) {
+				case 13: // enter
+					liElements = $('.resultli')
+					if (liElements.length){
+						selectSong(liElements.get(0));
+					}
+					break;
+				case 39: // right arrow
+				case 32: // space
+					incrementSlideShow()
+					break;
+				case 8: // backspace
+					if (event.which === 8 && !$(event.target).is("input, textarea")) {
+				        event.preventDefault();
+				    }
+				case 37: // left arrow
+					decrementSlideShow()
+					break;
+				default:
+					$('#search-bar').focus()
+
+			}
+		}
+	})
 
 	$('#search-bar').on('keyup', function() {
 		$('#search-row').show()
@@ -227,20 +377,45 @@ $(document).ready(function(){
 	        resultdiv.empty();
 	        for (var item in result) {
 	            var ref = result[item].ref;
-	            var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a></li>';
+                var keyString = ""
+		        if (store[ref].key) {
+		        	keyString = '<span class="badge">' + store[ref].key + '</span>'
+		        }
+		        var searchitem = '<li class="resultli list-group-item" id="' + ref + '">' + store[ref].title + '</a>' + keyString + '</li>';
 	            resultdiv.append(searchitem);
+
+
+
+
 	        }
+	        $('span.badge').each(function(index){
+				var color = '#33a6cc'
+				switch($(this).text().trim().substring(0,1)){
+					case 'A':
+						color = '#ff00ff' // fuschia
+						break;
+					case 'C':
+						color = '#33a6cc' // blue
+						break;
+					case 'D':
+						color = '#33cc33' // green
+						break;
+					case 'E':
+						color = '#ff3300' // red
+						break;
+					case 'G':
+						 color = '#0000ff' // blue
+						break;
+					default:
+						color = '#33a6cc' // blue
+				}
+				$(this).css('background-color',color);	        	
+	        })
 	        resultdiv.show();	
 
 	        $('.resultli').bind({
 	        	click: function() {
-	        		$('#song-viewer').html(loadASong(this.id))
-	        		slideShow();
-	        			
-	        		$('#search-row').hide();
-	        		$('#search-results').hide();
-	        		$('#song-viewer').show()
-	        		$('#song-previews').empty();
+	        		selectSong(this)
 	        	},
 	        	mouseenter: function() {
 	        		$('#song-previews').html(markdown.toHTML(store[this.id].body))
@@ -263,8 +438,6 @@ $(document).ready(function(){
 var counter = 0;
 
 $('#file').change(function(event) {
-  $('.hidden').show().removeClass('hidden')
-  $('#file-selector-div').hide()
   var listOfFiles = event.target.files;
   for (var i = 0, l = listOfFiles.length; i < l; ++i) {
 
@@ -307,9 +480,11 @@ $('#file').change(function(event) {
 </script>
 
 <script>
-	var chorusPosition;
+
 
 function loadASong (id) {
+	slideShowPosition = 0
+	chorusPosition = 0
 	var html = ""
 	if (store[id].title.indexOf('.md') > -1) {
 		;
@@ -334,7 +509,7 @@ function loadASong (id) {
 				color = '#ff3300' // red
 				break;
 			case 'G':
-				 olor = '#0033cc' // red
+				 color = '#0000ff' // red
 				break;
 			default:
 				color = '#33a6cc' // blue
@@ -364,7 +539,7 @@ function slideShow() {
 			$('#toc').append('<li role="presentation"><a href="#chorus">C</a></li>')
 		}
 	})
-
+	maxVerse = i;
 
 	$('#toc > li > a').bind({
 		click: function() {
@@ -373,6 +548,8 @@ function slideShow() {
 			//$(this).parents().class('active')
 			$('#song-viewer h1').show()
 			$(id).show()
+
+			//TODO sync with slideshow position
 		}
 	})
 }

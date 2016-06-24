@@ -1,4 +1,5 @@
 title: I am a C
+key:G
 
 I am a C
 I am a C-H

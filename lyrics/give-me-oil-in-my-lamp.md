@@ -1,4 +1,5 @@
 title: Give Me Oil in my Lamp
+key:E
 
 Give me oil in my lamp, keep me burning
 Give me oil in my lamp, I pray

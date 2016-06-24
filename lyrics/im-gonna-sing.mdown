@@ -1,4 +1,6 @@
 title: I’m Gonna Sing, Sing, Sing
+key:E
+
 I'm gonna sing, sing, sing,
 I'm gonna shout, shout, shout, 
 I'm gonna sing, I'm gonna shout 

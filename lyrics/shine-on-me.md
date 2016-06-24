@@ -1,11 +1,12 @@
-title:￼Shine on Me
+title:Shine on Me
+key:A
 Lord, the light of your love is shining,
 in the midst of the darkness, shining.
 Jesus, Light of the world, shine upon us.
 Set us free by the truth you now bring us.
 Shine on me, shine on me.
 
->￼Shine, Jesus, shine;
+>Shine, Jesus, shine;
 fill this land with the Father’s glory.
 Blaze, Spirit, blaze;
 set our hearts on fire.

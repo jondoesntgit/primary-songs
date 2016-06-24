@@ -1,4 +1,5 @@
 title:Psalm 95:1
+key:Em
 
 O Come Let Us Sing
 O come let us sing,
