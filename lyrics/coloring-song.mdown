@@ -1,5 +1,5 @@
 title:Coloring Song
-key: C
+key: G
 
 Red is the color of the blood that flowed
 down the face of Someone who loved us so.
