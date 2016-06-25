@@ -588,6 +588,18 @@ function slideShow() {
 		click: function() {
 			id = ($(this).attr('href'))
 			$(id).siblings().hide()
+			if ($(this).attr('href') == '#chorus') {
+				console.log(slideShowPosition)
+				if(Number.isInteger(slideShowPosition)){
+					slideShowPosition = slideShowPosition + .5
+				}
+				console.log(slideShowPosition)
+			} else {
+				console.log($(this).attr('href').substring(2,4))
+				console.log(parseInt($(this).attr('href').substring(2,4)))
+				slideShowPosition = parseInt($(this).attr('href').substring(2,4))	
+			}
+
 			//$(this).parents().class('active')
 			$('#song-viewer h1').show()
 			$(id).show()
