@@ -184,6 +184,8 @@ var store = [];
 
 <script>
 
+counter = 0;
+
 store.sort(function(a,b){
 	a = a.title.trim()
 	b = b.title.trim()
@@ -195,6 +197,7 @@ $.each(store, function(i) {
 	this.body = this.body.split("\n").join("  \n")
 	this.id = i;
 	index.add(this)
+	counter = counter + 1
 })
 
   $('.hidden').show().removeClass('hidden')
@@ -478,7 +481,7 @@ $(document).ready(function(){
 
 
 // var $list = $('#list_of_files'); -->
-var counter = 0;
+counter = 0
 
 $('#file').change(function(event) {
   var listOfFiles = event.target.files;
